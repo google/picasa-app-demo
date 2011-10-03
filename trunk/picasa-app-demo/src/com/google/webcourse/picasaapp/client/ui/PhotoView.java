@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Google Inc.
+ * Copyright 2011 Google Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,28 +16,31 @@
 
 package com.google.webcourse.picasaapp.client.ui;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
-/**
- * Shows a single photo with a label.
- */
 public class PhotoView extends Composite {
-  private Image photo = new Image();
-  private Label titleLabel = new Label();
-  private VerticalPanel mainPanel;
 
-  public PhotoView() {
-    photo.setStyleName("photo");
+  private static PhotoViewUiBinder uiBinder = GWT
+      .create(PhotoViewUiBinder.class);
 
-    mainPanel = new VerticalPanel();
-    mainPanel.add(photo);
-    mainPanel.add(titleLabel);
-    initWidget(mainPanel);
+  interface PhotoViewUiBinder extends UiBinder<Widget, PhotoView> {
   }
 
+  @UiField
+  Image photo = new Image();
+
+  @UiField
+  Label titleLabel = new Label();
+
+  public PhotoView() {
+    initWidget(uiBinder.createAndBindUi(this));
+  }
   /**
    * Sets the URL of the photo to be shown.
    */

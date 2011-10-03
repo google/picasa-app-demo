@@ -1,0 +1,24 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui">
+<ui:style>
+.picasaUserName {
+  width: 100%;
+}
+
+.loadAlbumsButton {
+  width: 100%;
+  margin-bottom: 10px;
+}
+</ui:style>
+
+<g:VerticalPanel>
+  <g:Label ui:field="label"
+           text="Add your comment" />
+  <g:TextArea ui:field="commentTextArea"
+              styleName="{style.picasaUserName}" />
+  <g:Button ui:field="submitButton"
+            text="Submit"
+            styleName="{style.loadAlbumsButton}"/>
+</g:VerticalPanel>
+
+</ui:UiBinder> 
