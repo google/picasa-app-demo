@@ -1,0 +1,21 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui">
+<ui:style>
+.thumbnailLabel {
+  margin-bottom: 10px;
+}
+
+.thumbnail {
+  box-shadow: 1px 1px 3px 0 #000;
+  -moz-box-shadow: 1px 1px 3px 0 #000;
+  -webkit-box-shadow: #000 1px 1px 3px;
+  cursor:pointer;	
+}
+</ui:style>
+
+<g:VerticalPanel>
+  <g:Image styleName="{style.thumbnail}" ui:field="thumbnail" />
+  <g:Label styleName="{style.thumbnailLabel}" ui:field="titleLabel" />
+</g:VerticalPanel>
+
+</ui:UiBinder> 

@@ -16,19 +16,28 @@
 
 package com.google.webcourse.picasaapp.client.ui;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * The form on the top-left which let's users enter a Picasa username and load
  * the albums of that user.
  */
 public class LoadAlbumsForm extends Composite {
+
+  private static LoadAlbumsFormUiBinder uiBinder = GWT
+      .create(LoadAlbumsFormUiBinder.class);
+
+  interface LoadAlbumsFormUiBinder extends UiBinder<Widget, LoadAlbumsForm> {
+  }
 
   /**
    * Classes implementing this interface can be called when the user wants to
@@ -38,31 +47,22 @@ public class LoadAlbumsForm extends Composite {
     public void loadAlbums(String username);
   }
 
-  Label userNameLabel = new Label("Enter Picasa username:");
-  TextBox userNameTextBox = new TextBox();
-  Button loadButton = new Button("Load albums");
+  @UiField
+  Label userNameLabel;
+
+  @UiField
+  TextBox userNameTextBox;
+
+  @UiField
+  Button loadButton;
+
   LoadAlbumsListener listener;
 
   public LoadAlbumsForm() {
-
-    loadButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        if (listener != null) {
-          listener.loadAlbums(userNameTextBox.getText());
-        }
-      }
-    });
+    initWidget(uiBinder.createAndBindUi(this));
 
     // Just for testing, so we don't have to always enter a username.
     userNameTextBox.setText("bhrose");
-    userNameTextBox.setStyleName("picasaUserName");
-    loadButton.setStyleName("loadAlbumsButton");
-
-    VerticalPanel mainPanel = new VerticalPanel();
-    mainPanel.add(userNameLabel);
-    mainPanel.add(userNameTextBox);
-    mainPanel.add(loadButton);
-    initWidget(mainPanel);
   }
 
   /**
@@ -71,5 +71,16 @@ public class LoadAlbumsForm extends Composite {
    */
   public void setLoadAlbumListener(LoadAlbumsListener loadAlbumListener) {
     this.listener = loadAlbumListener;
+  }
+
+  /**
+   * We bind this method to the loadButton member and listen to the ClickEvent
+   * fired by it.
+   */
+  @UiHandler("loadButton")
+  void buttonClicked(ClickEvent e) {
+    if (listener != null) {
+      listener.loadAlbums(userNameTextBox.getText());
+    }
   }
 }

@@ -16,18 +16,28 @@
 
 package com.google.webcourse.picasaapp.client.ui;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A form that allows users to enter and submit a comment.
  */
 public class CommentSubmitForm extends Composite {
+
+  private static CommentSubmitFormUiBinder uiBinder = GWT
+      .create(CommentSubmitFormUiBinder.class);
+
+  interface CommentSubmitFormUiBinder extends
+      UiBinder<Widget, CommentSubmitForm> {
+  }
 
   /**
    * Classes implementing this interface cann be called when the user submits a
@@ -40,26 +50,18 @@ public class CommentSubmitForm extends Composite {
     public void submitComment(String comment);
   }
 
-  private Label label = new Label("Add your comment");
-  private TextArea commentTextArea = new TextArea();
-  private Button submitButton = new Button("Submit");
+  @UiField
+  Label label;
+
+  @UiField
+  TextArea commentTextArea;
+
+  @UiField
+  Button submitButton;
   private CommentSubmitHandler submitHandler;
 
   public CommentSubmitForm() {
-    submitButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        if (submitHandler != null) {
-          submitHandler.submitComment(commentTextArea.getText());
-          commentTextArea.setText("");
-        }
-      }
-    });
-
-    VerticalPanel mainPanel = new VerticalPanel();
-    mainPanel.add(label);
-    mainPanel.add(commentTextArea);
-    mainPanel.add(submitButton);
-    initWidget(mainPanel);
+    initWidget(uiBinder.createAndBindUi(this));
   }
 
   /**
@@ -67,5 +69,13 @@ public class CommentSubmitForm extends Composite {
    */
   public void setCommentSubmitHandler(CommentSubmitHandler handler) {
     submitHandler = handler;
+  }
+
+  @UiHandler("submitButton")
+  void submitButtonClicked(ClickEvent e) {
+    if (submitHandler != null) {
+      submitHandler.submitComment(commentTextArea.getText());
+      commentTextArea.setText("");
+    }
   }
 }
